@@ -1,3 +1,3 @@
-export const part1Solution = (mass) => {
-  
+export const calculateRequiredFuel = (mass) => {
+  return Math.floor(mass / 3) - 2;
 };
