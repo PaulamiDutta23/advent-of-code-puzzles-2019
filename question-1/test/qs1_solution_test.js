@@ -18,13 +18,18 @@ Deno.test("module with mass 100756", () => {
 });
 
 Deno.test("simple test for two modules", () => {
-  assertEquals(part1Solution([12, 14]), 4);
+  assertEquals(part1Solution("12\n14"), 4);
 });
 
 Deno.test("simple test for one module", () => {
-  assertEquals(part1Solution([12]), 2);
+  assertEquals(part1Solution("12"), 2);
 });
 
 Deno.test("simple test for multi modules", () => {
-  assertEquals(part1Solution([12, 14, 1969, 100756]), 34241);
+  assertEquals(part1Solution("12\n14\n1969\n100756"), 34241);
+});
+
+Deno.test("large input", () => {
+  const input = Deno.readTextFileSync("./data/input.txt");
+  assertEquals(part1Solution(input), 3297626);
 });
