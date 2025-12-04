@@ -14,7 +14,7 @@ const areAllIncreasing = (num) => {
 //   return false;
 // };
 
-const doesContainOnePair = (num) => {
+const doesContainOnlyOnePair = (num) => {
   const frequency = num.split("").reduce((frequency, key) => {
     frequency[key] = frequency[key] || 0;
     return (frequency[key] += 1) && frequency;
@@ -28,8 +28,8 @@ const validPassword = (start, end) => {
     const numInStr = i.toString();
     const hasIncreasingDigits = areAllIncreasing(numInStr);
     // const hasSameDigit = hasAdjacentSameDigit(numInStr);
-    const hasAtLeastOnePair = doesContainOnePair(numInStr);
-    if (hasIncreasingDigits && hasAtLeastOnePair) {
+    const hasOnePair = doesContainOnlyOnePair(numInStr);
+    if (hasIncreasingDigits && hasOnePair) {
       count++;
     }
   }

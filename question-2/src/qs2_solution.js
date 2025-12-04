@@ -1,15 +1,16 @@
 export const parse = (input) =>
   input.split(",").map((value) => parseInt(value));
+
 const add = (a, b) => a + b;
 const mul = (a, b) => a * b;
 
-const funtionToPerform = {
+const opcodeDetails = {
   1: add,
   2: mul,
 };
 
 const executeInstruction = (opcodes, index) => {
-  opcodes[opcodes[index + 3]] = funtionToPerform[opcodes[index]](
+  opcodes[opcodes[index + 3]] = opcodeDetails[opcodes[index]](
     opcodes[opcodes[index + 1]],
     opcodes[opcodes[index + 2]],
   );

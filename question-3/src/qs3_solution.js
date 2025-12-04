@@ -1,67 +1,74 @@
 import { minOf, zip } from "jsr:@std/collections";
 
-const right = (init, value, result) => {
-  for (let x = init[0] + 1; x <= init[0] + parseInt(value); x++) {
-    result.push([x, init[1]]);
+const right = (initial, steps, result) => {
+  for (let x = initial[0] + 1; x <= initial[0] + parseInt(steps); x++) {
+    result.push([x, initial[1]]);
   }
 
   return result[result.length - 1];
 };
 
-const up = (init, value, result) => {
-  for (let y = init[1] + 1; y <= init[1] + parseInt(value); y++) {
-    result.push([init[0], y]);
+const up = (initial, steps, result) => {
+  for (let y = initial[1] + 1; y <= initial[1] + parseInt(steps); y++) {
+    result.push([initial[0], y]);
   }
 
   return result[result.length - 1];
 };
 
-const left = (init, value, result) => {
-  for (let x = init[0] - 1; x >= init[0] - parseInt(value); x--) {
-    result.push([x, init[1]]);
+const left = (initial, steps, result) => {
+  for (let x = initial[0] - 1; x >= initial[0] - parseInt(steps); x--) {
+    result.push([x, initial[1]]);
   }
 
   return result[result.length - 1];
 };
 
-const down = (init, value, result) => {
-  for (let y = init[1] - 1; y >= init[1] - parseInt(value); y--) {
-    result.push([init[0], y]);
+const down = (initial, steps, result) => {
+  for (let y = initial[1] - 1; y >= initial[1] - parseInt(steps); y--) {
+    result.push([initial[0], y]);
   }
 
   return result[result.length - 1];
 };
 
-const instructions = {
+const instructionMapper = {
   R: right,
   U: up,
   L: left,
   D: down,
 };
 
-const calculateIntermediatePoints = (ins) => {
+const calculateIntermediatePoints = (instructions) => {
   const o = [0, 0];
-  let ip = o;
+  let pointToStart = o;
   const result = [];
-  for (const i of ins) {
-    ip = instructions[i[0]](ip, i.slice(1), result);
+  for (const instruction of instructions) {
+    pointToStart = instructionMapper[instruction[0]](
+      pointToStart,
+      instruction.slice(1),
+      result,
+    );
   }
   return result;
 };
 
-const findCommonPoints = (points1, points2) => {
-  const common = [];
+const isEqual = (value1, value2) => value1 === value2;
+
+const findIntersectionPoints = (points1, points2) => {
+  const intersectionPoints = [];
   for (let i = 0; i < points1.length; i++) {
     for (let j = 0; j < points2.length; j++) {
       if (
-        (points1[i][0] === points2[j][0]) && (points1[i][1] === points2[j][1])
+        isEqual(points1[i][0], points2[j][0]) &&
+        isEqual(points1[i][1], points2[j][1])
       ) {
-        common.push(points2[j]);
+        intersectionPoints.push(points2[j]);
         break;
       }
     }
   }
-  return common;
+  return intersectionPoints;
 };
 
 const distBetween = ([a, b], [c, d]) => Math.abs(a - c) + Math.abs(b - d);
@@ -70,20 +77,17 @@ const shortestDistance = (points, origin) =>
   points.reduce(
     (dis, point) => {
       const distance = distBetween(point, origin);
-      if (distance === 0) {
-        return dis;
-      }
-      return distance < dis ? distance : dis;
+      return distance && distance < dis ? distance : dis;
     },
     Infinity,
   );
 
-const findIndices = (points, commonPoints) => {
+const findIndices = (points, intersectionPoints) => {
   const result = [];
-  for (const common of commonPoints) {
+  for (const point of intersectionPoints) {
     result.push(
-      points.findIndex((point) =>
-        point[0] === common[0] && point[1] === common[1]
+      points.findIndex((p) =>
+        isEqual(p[0], point[0]) && isEqual(p[1], point[1])
       ) + 1,
     );
   }
@@ -103,12 +107,12 @@ const main = () => {
   //console.log(points1);
   // console.log(points2);
 
-  const commons = findCommonPoints(points1, points2);
+  const intersections = findIntersectionPoints(points1, points2);
   // console.log(commons);
-  console.log(shortestDistance(commons, [0, 0]));
-  const indicesList1 = findIndices(points1, commons);
+  console.log(shortestDistance(intersections, [0, 0]));
+  const indicesList1 = findIndices(points1, intersections);
   // console.log(indicesList1);
-  const indicesList2 = findIndices(points2, commons);
+  const indicesList2 = findIndices(points2, intersections);
   // console.log(indicesList2);
   const distanceList = zip(indicesList1, indicesList2);
   console.log(minOf(distanceList, ([a, b]) => a + b));
