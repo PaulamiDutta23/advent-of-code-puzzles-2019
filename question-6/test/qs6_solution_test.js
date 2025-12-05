@@ -33,10 +33,21 @@ Deno.test("testing parse", () => {
   ]]);
 });
 
-Deno.test("testing count orbits with simple string data", () => {
+Deno.test("testing calculateAllOrbits with simple string data", () => {
   assertEquals(calculateAllOrbits("COM)B\nB)C\nC)D"), 6);
 });
 
-Deno.test("testing count orbits with simple string data", () => {
+Deno.test("testing calculateAllOrbits with large string data", () => {
   assertEquals(calculateAllOrbits("COM)B\nB)C\nC)D\nD)E\nE)F\nB)G\nG)H\nD)I\nE)J\nJ)K\nK)L"), 42);
 });
+
+// Deno.test("testing calculateAllOrbits with given input", () => {
+//   const input = Deno.readTextFileSync("./data/input.txt");
+//   assertEquals(calculateAllOrbits(input), 1540651);
+// });
+Deno.test("testing calculateAllOrbits with given input", () => {
+  const input = Deno.readTextFileSync("./data/input1.txt");
+  assertEquals(calculateAllOrbits(input), 254447);
+});
+
+//1539992
