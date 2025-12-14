@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Launch Program",
       "type": "node",
-      "program": "${workspaceFolder}/question-5/src/qs5_solution.js",
+      "program": "${workspaceFolder}/question-2/src/qs2_solution.js",
       "cwd": "${workspaceFolder}",
       "env": {},
       "runtimeExecutable": "/usr/local/bin/deno",
