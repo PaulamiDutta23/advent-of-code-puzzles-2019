@@ -1,3 +1,4 @@
+import { chunk } from "jsr:@std/collections";
 const givenInput = Deno.readTextFileSync("./question-2/data/input.txt");
 
 const INPUTS = {
@@ -14,9 +15,10 @@ export const parse = (input) =>
   input.split(",").map((value) => parseInt(value));
 
 const createComputer = (program) => {
+  const modifiedProgram = parse(program);
   return {
     currentPosition: 0,
-    program,
+    program: modifiedProgram,
     isHalted: false,
   };
 };
@@ -74,14 +76,35 @@ const execute = (computer) => {
 };
 
 export const sprint1 = (input) => {
-  const modifiedProgram = parse(input.program);
-  const computer = createComputer(modifiedProgram);
+  const computer = createComputer(input.program);
   override(computer, input.overrider);
   execute(computer);
   return computer;
 };
 
-console.log(sprint1(input));
+// console.log(sprint1(input));
+
+const displayGrid = (computer) => {
+  const grid = chunk(computer.program, 10).map((row) => {
+    const max = 10;
+    return row.map((ele) => ele.toString().padStart(max, " ")).join("");
+  }).join("\n");
+  console.log(`
+    Program : \n${grid}
+    position : ${computer.currentPosition}
+    isHalted : ${computer.isHalted}`);
+};
+
+const debug = (input) => {
+  let curComputer = createComputer(input.program);
+  override(curComputer, input.overrider);
+  while (!curComputer.isHalted) {
+    console.clear();
+    displayGrid(curComputer);
+    curComputer = stepForward(curComputer);
+    prompt();
+  }
+};
 
 export const sprint2 = (input, output) => {
   let opcodes = parse(input);
