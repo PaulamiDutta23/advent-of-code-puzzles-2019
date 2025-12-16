@@ -1,10 +1,8 @@
 import { chunk } from "jsr:@std/collections";
-import {
-  createComputer,
-  INPUTS,
-  override,
-  stepForward,
-} from "./qs2_solution.js";
+import { INPUTS } from "./inputs.js";
+import { createComputer,stepForward } from "../intcode_computer/computer.js";
+import { override } from "./qs2_solution.js";
+
 
 const displayGrid = (computer) => {
   const grid = chunk(computer.program, 10).map((row) => {
@@ -28,4 +26,4 @@ export const debug = (input) => {
   }
 };
 
-// debug(INPUTS.puzzleInput);
+debug(INPUTS.simpleAdd);
