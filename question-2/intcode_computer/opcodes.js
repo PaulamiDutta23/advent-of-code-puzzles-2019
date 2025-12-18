@@ -56,8 +56,14 @@ const lessThan = (computer, [input1Loc, input2Loc, input3Loc], step) => {
 const isEquals = (computer, [input1Loc, input2Loc, input3Loc], step) => {
   const curProgram = computer.program;
   curProgram[input3Loc] = curProgram[input1Loc] === curProgram[input2Loc]
-    ? 1
-    : 0;
+  ? 1
+  : 0;
+  computer.currentPosition += step;
+};
+
+const setRelativeBase = (computer,[input1Loc], step) => {
+  const curProgram = computer.program;
+  computer.relativeBase += curProgram[input1Loc];
   computer.currentPosition += step;
 };
 
@@ -74,5 +80,6 @@ export const OPCODES = {
   "06": { operation: jumpIfFalse, stepsToMove: 3 },
   "07": { operation: lessThan, stepsToMove: 4 },
   "08": { operation: isEquals, stepsToMove: 4 },
+  "09": { operation: setRelativeBase, stepsToMove: 2 },
   "99": { operation: halt, stepsToMove: 0 },
 };
