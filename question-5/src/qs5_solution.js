@@ -8,8 +8,8 @@ const input = INPUTS.puzzleInput;
 
 const main = (input) => {
   const computer = createComputer(input);
-  execute(computer);
-  console.log(computer);
+  const result = execute(computer);
+  console.log(result, "\n", computer);
 };
 
 main(input);

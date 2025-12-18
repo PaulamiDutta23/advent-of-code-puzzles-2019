@@ -14,4 +14,5 @@ export const INPUTS = {
   equalsInImmediateMode: "3,3,1108,-1,8,3,4,3,99",
   lessThanInPositionMode: "3,9,7,9,10,9,4,9,99,-1,8",
   lessThanInImmediateMode: "3,3,1107,-1,8,3,4,3,998",
+  qs7Demo: "3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0",
 };

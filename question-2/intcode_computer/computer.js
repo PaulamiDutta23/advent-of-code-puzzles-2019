@@ -1,4 +1,4 @@
-import { OPCODES } from "./opcodes.js";
+import { OPCODES, RESULT } from "./opcodes.js";
 
 const parse = (input) => input.split(",").map((value) => parseInt(value));
 
@@ -51,5 +51,6 @@ export const stepForward = (computer) => {
 export const execute = (computer) => {
   while (!computer.isHalted) {
     stepForward(computer);
-  }
+  }  
+  return RESULT[RESULT.length - 1];
 };

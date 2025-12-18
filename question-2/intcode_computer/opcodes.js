@@ -1,3 +1,5 @@
+export const RESULT = [];
+export const INPUT = [];
 const add = (computer, [input1Loc, input2Loc, outputLoc], step) => {
   const curProgram = computer.program;
   curProgram[outputLoc] = curProgram[input1Loc] + curProgram[input2Loc];
@@ -12,20 +14,26 @@ const mul = (computer, [input1Loc, input2Loc, outputLoc], step) => {
 
 const setValueAt = (computer, [input1Loc], step) => {
   const curProgram = computer.program;
-  const input = +prompt("Enter the input : ");
+  let input = INPUT[0];
+
+  if (input === undefined) {
+    input = +prompt("Enter the input : ");
+  }
+
   curProgram[input1Loc] = input;
+  INPUT.shift();
   computer.currentPosition += step;
 };
 
 const displayValueFrom = (computer, [input1Loc], step) => {
   const curProgram = computer.program;
-  console.log(curProgram[input1Loc]);
+  RESULT.push(curProgram[input1Loc]);
   computer.currentPosition += step;
 };
 
 const jumpIfTrue = (computer, [input1Loc, input2Loc], step) => {
   const curProgram = computer.program;
-  
+
   computer.currentPosition = curProgram[input1Loc]
     ? curProgram[input2Loc]
     : computer.currentPosition + step;
@@ -33,21 +41,23 @@ const jumpIfTrue = (computer, [input1Loc, input2Loc], step) => {
 
 const jumpIfFalse = (computer, [input1Loc, input2Loc], step) => {
   const curProgram = computer.program;
-  
+
   computer.currentPosition = curProgram[input1Loc]
-  ? computer.currentPosition + step
-  : curProgram[input2Loc];
+    ? computer.currentPosition + step
+    : curProgram[input2Loc];
 };
 
-const lessThan = (computer, [input1Loc, input2Loc, input3Loc],step) => {
+const lessThan = (computer, [input1Loc, input2Loc, input3Loc], step) => {
   const curProgram = computer.program;
   curProgram[input3Loc] = curProgram[input1Loc] < curProgram[input2Loc] ? 1 : 0;
   computer.currentPosition += step;
 };
 
-const isEquals = (computer, [input1Loc, input2Loc, input3Loc],step) => {
+const isEquals = (computer, [input1Loc, input2Loc, input3Loc], step) => {
   const curProgram = computer.program;
-  curProgram[input3Loc] = curProgram[input1Loc] === curProgram[input2Loc] ? 1 : 0;
+  curProgram[input3Loc] = curProgram[input1Loc] === curProgram[input2Loc]
+    ? 1
+    : 0;
   computer.currentPosition += step;
 };
 
