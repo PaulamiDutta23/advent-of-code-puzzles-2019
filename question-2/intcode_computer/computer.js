@@ -17,7 +17,7 @@ const immediateMode = (index) => index;
 const relativeMode = (index, program, relativeBase) =>
   relativeBase + program[index];
 
-const modeSelecter = {
+const MODES = {
   "0": positionMode,
   "1": immediateMode,
   "2": relativeMode,
@@ -27,14 +27,9 @@ const selectModes = (computer, modesInString, count) => {
   const program = computer.program;
   const pointer = computer.currentPosition;
   const modes = modesInString.split("").reverse();
-  let index = 0;
   const argsLoc = [];
-  for (let i = 1; i <= count; i++) {
-    const loc = modeSelecter[modes[index++]](
-      pointer + i,
-      program,
-      computer.relativeBase,
-    );
+  for (let i = 0; i < count; i++) {
+    const loc = MODES[modes[i]](pointer + i + 1,program,computer.relativeBase);
     program[loc] = loc >= program.length ? 0 : program[loc];
     argsLoc.push(loc);
   }
@@ -42,13 +37,10 @@ const selectModes = (computer, modesInString, count) => {
 };
 
 const getArgs = (computer) => {
-  const pointer = computer.program[computer.currentPosition];
-  const opcode = (pointer % 100).toString().padStart(2, "0");
+  const instruction = computer.program[computer.currentPosition];
+  const opcode = (instruction % 100).toString().padStart(2, "0");
   const noOfArgs = OPCODES[opcode].stepsToMove - 1;
-  const modes = Math.floor(pointer / 100).toString().padStart(
-    noOfArgs,
-    "0",
-  );
+  const modes = Math.floor(instruction / 100).toString().padStart(noOfArgs,"0");
   const args = selectModes(computer, modes, noOfArgs);
   return [opcode, ...args];
 };
