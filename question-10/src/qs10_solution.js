@@ -29,6 +29,8 @@ const countVisibleAsteroids = (location, _i, locations) => {
     if (
       !points.some((p) => locations.some((l) => p[0] === l[0] && p[1] === l[1]))
     ) {
+      if(location[0] === 8 && location[1] === 3) console.log(loc);
+      
       count++;
     }
   }
@@ -54,5 +56,5 @@ const findNoOfVisibleAsteroids = (map) => {
   return maxBy(countOfEach, (asteroid) => asteroid.count);
 };
 
-const input = INPUTS.puzzleInput;
+const input = INPUTS.part2Sample;
 console.log(findNoOfVisibleAsteroids(input));
